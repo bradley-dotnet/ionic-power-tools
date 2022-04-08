@@ -59,9 +59,15 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/showcase/src/favicon.ico",
-              "projects/showcase/src/assets"
+              "projects/showcase/src/assets",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              }
             ],
             "styles": [
+              "projects/showcase/src/theme/variables.scss",
               "projects/showcase/src/styles.scss"
             ],
             "scripts": []
