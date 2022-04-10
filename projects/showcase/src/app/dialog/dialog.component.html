@@ -1,0 +1,7 @@
+<ion-content>
+    <ion-button (click)="getUserName()">Enter Name</ion-button>
+    <ion-item *ngIf="name$">
+        <ion-label>Name: </ion-label>
+        <ion-label>{{name$ | async}}</ion-label>
+    </ion-item>
+</ion-content>

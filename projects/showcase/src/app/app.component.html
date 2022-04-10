@@ -4,7 +4,12 @@
         <ion-buttons slot="start">
           <ion-menu-button [autoHide]="false"></ion-menu-button>
         </ion-buttons>
-        <ion-title routerLink="/">Ionic Power Tools</ion-title>
+        <ion-title routerLink="/">
+          <span>Ionic Power Tools</span>
+          <ng-container *ngIf="title$ | async as title">
+            <span> - {{title}}</span>
+          </ng-container>
+        </ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
@@ -22,6 +27,10 @@
       <ion-list>
         <ion-item (click)="menu.close()" routerLink="/loading-spinner">
           <ion-spinner slot="start"></ion-spinner>
+          <ion-label>Loading Spinner</ion-label>
+        </ion-item>
+        <ion-item (click)="menu.close()" routerLink="/dynamic-dialog">
+          <ion-icon name="browsers-outline"></ion-icon>
           <ion-label>Loading Spinner</ion-label>
         </ion-item>
       </ion-list>

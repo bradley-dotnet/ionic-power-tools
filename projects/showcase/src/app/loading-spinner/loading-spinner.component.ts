@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { delay, of } from 'rxjs';
 import { withSpinner } from 'ionic-power-tools';
+import { AppStateStoreService } from '../services/app-state-store.service';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -10,7 +11,12 @@ import { withSpinner } from 'ionic-power-tools';
 })
 export class LoadingSpinnerComponent {
 
-  constructor(private readonly loading: LoadingController) { }
+  constructor(private readonly loading: LoadingController,
+    private readonly appStore: AppStateStoreService) { }
+
+  public ionViewWillEnter(): void {
+    this.appStore.setCurrentPage('Loading Spinner');
+  }
 
   testSpinner(): void {
     of('Testing').pipe(

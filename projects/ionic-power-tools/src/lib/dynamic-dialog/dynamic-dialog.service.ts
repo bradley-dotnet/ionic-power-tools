@@ -39,6 +39,7 @@ export class DynamicDialogService {
 
   private handleDialogRequest<TOut>(ionicOptions: ModalOptions): Observable<TOut> {
     return from(this.ionicModal.create(ionicOptions)).pipe(
+      switchMap(modal => from(modal.present()).pipe(map(() => modal))),
       switchMap(modal => from(modal.onWillDismiss())),
       map(({ data }) => data as TOut)
     )

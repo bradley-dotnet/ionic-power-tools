@@ -13,10 +13,10 @@ import { DynamicDialogContainerComponent } from './dynamic-dialog-container/dyna
     CommonModule
   ]
 })
-export class DynamicModalModule {
-  static forRoot(): ModuleWithProviders<DynamicModalModule> {
+export class DynamicDialogModule {
+  static forRoot(): ModuleWithProviders<DynamicDialogModule> {
     return {
-      ngModule: DynamicModalModule,
+      ngModule: DynamicDialogModule,
       providers: [
         DynamicDialogService
       ]
