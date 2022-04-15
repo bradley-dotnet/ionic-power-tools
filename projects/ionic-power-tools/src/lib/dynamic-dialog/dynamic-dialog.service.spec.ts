@@ -20,8 +20,9 @@ describe('DynamicDialogService', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(() => {
-    const mockModal = jasmine.createSpyObj<HTMLIonModalElement>('modalSpy', ['onWillDismiss']);
+    const mockModal = jasmine.createSpyObj<HTMLIonModalElement>('modalSpy', ['present', 'onWillDismiss']);
     mockModal.onWillDismiss.and.returnValue(Promise.resolve({ data: 'Result'}));
+    mockModal.present.and.returnValue(Promise.resolve());
 
     modalControllerSpy = jasmine.createSpyObj<ModalController>('modalControllerSpy', ['create']);
     modalControllerSpy.create.and.returnValue(Promise.resolve(mockModal));
