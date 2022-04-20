@@ -13,12 +13,16 @@ import { AngularValidationMessages, ANGULAR_VALIDATION_ERRORS, DefaultAngularVal
   imports: [
     IonicModule,
     CommonModule
+  ],
+  exports: [
+    FormInputComponent,
+    InputElementDirective
   ]
 })
-export class FormsModule {
-  static forRoot(builtInErrorMessages?: AngularValidationMessages): ModuleWithProviders<FormsModule> {
+export class PowerToolsFormsModule {
+  static forRoot(builtInErrorMessages?: AngularValidationMessages): ModuleWithProviders<PowerToolsFormsModule> {
     return {
-      ngModule: FormsModule,
+      ngModule: PowerToolsFormsModule,
       providers: [
         { provide: ANGULAR_VALIDATION_ERRORS, useValue: builtInErrorMessages || DefaultAngularValidationMessages }
       ]

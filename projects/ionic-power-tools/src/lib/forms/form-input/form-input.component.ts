@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChild, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, Inject, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, FormControl, NgControl } from '@angular/forms';
 import { partition, startWith, Subject, takeUntil } from 'rxjs';
 import { AngularValidationMessages, ANGULAR_VALIDATION_ERRORS } from './angular-validation-messages.interface';
@@ -15,7 +15,7 @@ export class FormInputComponent implements AfterContentInit, OnDestroy {
 
   public required: boolean = false;
   public errors: string[] = [];
-  public touched: boolean = false;
+  public control: AbstractControl | undefined;
   private destroy$: Subject<null> = new Subject();
 
   constructor(@Inject(ANGULAR_VALIDATION_ERRORS) private readonly errorMessages: AngularValidationMessages) {
@@ -25,6 +25,7 @@ export class FormInputComponent implements AfterContentInit, OnDestroy {
     const childInjector = this.inputControl?.injector;
     const attachedFormControl = childInjector?.get(NgControl, null)?.control;
     if (attachedFormControl) {
+      this.control = attachedFormControl;
       this.required = this.controlIsRequired(attachedFormControl)
       const validity$ = partition(attachedFormControl.statusChanges.pipe(
         startWith(attachedFormControl.status)
@@ -33,7 +34,6 @@ export class FormInputComponent implements AfterContentInit, OnDestroy {
       //Invalid
       validity$[0].subscribe(() => {
         const errors: {[validator: string]: string | object | number} = attachedFormControl.errors!;
-        this.touched = !attachedFormControl.touched;
         this.errors = Object.getOwnPropertyNames(errors)
           .map((key) => this.generateError(key, errors[key]));
       });
@@ -58,7 +58,6 @@ export class FormInputComponent implements AfterContentInit, OnDestroy {
   }
 
   private generateError(key: keyof AngularValidationMessages | string, errorBody: string | object | number): string {
-    console.warn(key)
     const builtIn: (label: string, body: unknown) => string = 
       // Have to cast to try and index the built-in message generators, then type the body so we can call it
       // The method parameters are guranteed by the AngularValidationMessages map

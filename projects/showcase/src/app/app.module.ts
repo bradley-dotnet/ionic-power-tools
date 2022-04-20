@@ -8,8 +8,9 @@ import { HomeComponent } from './home/home.component';
 import { IonicModule } from '@ionic/angular';
 import { DialogComponent } from './dialog/dialog.component';
 import { NameDialogComponent } from './dialog/name-dialog/name-dialog.component';
-import { DynamicDialogModule } from 'ionic-power-tools';
+import { DynamicDialogModule, PowerToolsFormsModule } from 'ionic-power-tools';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormInputComponent } from './form-input/form-input.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +18,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoadingSpinnerComponent,
     HomeComponent,
     DialogComponent,
-    NameDialogComponent
+    NameDialogComponent,
+    FormInputComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     DynamicDialogModule.forRoot(),
+    PowerToolsFormsModule.forRoot(),
     IonicModule.forRoot(),
     AppRoutingModule
   ],
