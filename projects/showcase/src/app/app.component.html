@@ -25,17 +25,21 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item (click)="menu.close()" routerLink="/loading-spinner">
+        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.LoadingSpinner">
           <ion-spinner slot="start"></ion-spinner>
           <ion-label>Loading Spinner</ion-label>
         </ion-item>
-        <ion-item (click)="menu.close()" routerLink="/dynamic-dialog">
+        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.Dialog">
           <ion-icon name="browsers-outline"></ion-icon>
           <ion-label>Dialogs</ion-label>
         </ion-item>
-        <ion-item (click)="menu.close()" routerLink="/form-input">
+        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.FormInput">
           <ion-icon name="warning"></ion-icon>
           <ion-label>Form Input</ion-label>
+        </ion-item>
+        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.DynamicRouter">
+          <ion-icon name="link"></ion-icon>
+          <ion-label>Dynamic Router</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>

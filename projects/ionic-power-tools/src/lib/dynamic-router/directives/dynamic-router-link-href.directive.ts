@@ -4,10 +4,10 @@ import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
 import { DynamicRouterService } from '../services/dynamic-router.service';
 
 @Directive({
-  selector: 'a[iotDynamicRouterLink],area[iotDynamicRouterLink]'
+  selector: 'a[iptDynamicRouterLink],area[iptDynamicRouterLink]'
 })
 export class DynamicRouterLinkHrefDirective<TNavTargets> extends RouterLinkWithHref {
-  @Input() public iotDynamicRouterLink: TNavTargets | undefined;
+  @Input() public iptDynamicRouterLink: TNavTargets | undefined;
 
   constructor(private readonly dynamicRouter: DynamicRouterService<TNavTargets>,
     router: Router, route: ActivatedRoute,
@@ -17,8 +17,8 @@ export class DynamicRouterLinkHrefDirective<TNavTargets> extends RouterLinkWithH
 
   override ngOnChanges(changes: SimpleChanges) {
     super.ngOnChanges(changes);
-    if (changes['iotDynamicRouterLink']) {
-      const url = this.dynamicRouter.generateLinkTo(changes['iotDynamicRouterLink'].currentValue);
+    if (changes['iptDynamicRouterLink']) {
+      const url = this.dynamicRouter.generateLinkTo(changes['iptDynamicRouterLink'].currentValue);
       this.routerLink = url;
     }
   }
