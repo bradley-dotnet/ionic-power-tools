@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationExtras, Router } from '@angular/router';
+import { DynamicRoute } from '../dynamic-route.model';
 import { RouteTreeTraverserService } from './route-tree-traverser.service';
 
 @Injectable()
-export class DynamicRouterService<TNavTargets> {
+export class DynamicRouter<TNavTargets> {
   private targetCache: Map<TNavTargets, string[]>;
 
   constructor(private readonly router: Router,
     private readonly treeTraverser: RouteTreeTraverserService<TNavTargets>) {
-    this.targetCache = this.treeTraverser.mapTargets(router.config);
+    // Cast the routes; we have to assume they are dynamic routes
+    this.targetCache = this.treeTraverser.mapTargets(router.config as DynamicRoute<TNavTargets>[]);
   }
 
   public navigateTo(target: TNavTargets, params?: Record<string, string | number>, extras?: NavigationExtras): void {
     const segments = this.findSegments(target);
     const route = this.createFullRoute(segments, params);
 
-    this.router.navigate(route, extras);
+    this.router.navigate(['/', ...route], extras);
   }
 
   public generateLinkTo(target: TNavTargets, params?: Record<string, string | number>): string {
@@ -27,11 +29,11 @@ export class DynamicRouterService<TNavTargets> {
 
   public navigateRealtiveTo(target: TNavTargets, current: ActivatedRouteSnapshot, params?: Record<string, string | number>, extras?: NavigationExtras): void {
     if (current.routeConfig?.children) {
-      const relativeTargets = this.treeTraverser.mapTargets(current.routeConfig.children);
+      const relativeTargets = this.treeTraverser.mapTargets(current.routeConfig.children as DynamicRoute<TNavTargets>[]);
       const segments = this.findSegments(target, relativeTargets);
       const route = this.createFullRoute(segments, params);
   
-      this.router.navigate(route, extras);
+      this.router.navigate(['./', ...route], extras);
     }
     else {
       throw new Error('No child routes available')
@@ -40,11 +42,11 @@ export class DynamicRouterService<TNavTargets> {
 
   public generateLinkRelativeTo(target: TNavTargets, current: ActivatedRouteSnapshot, params?: Record<string, string | number>): string {
     if (current.routeConfig?.children) {
-      const relativeTargets = this.treeTraverser.mapTargets(current.routeConfig.children);
+      const relativeTargets = this.treeTraverser.mapTargets(current.routeConfig.children as DynamicRoute<TNavTargets>[]);
       const segments = this.findSegments(target, relativeTargets);
       const route = this.createFullRoute(segments, params);
 
-      return `/${route.join('/')}`;
+      return `./${route.join('/')}`;
     }
     else {
       throw new Error('No child routes available')

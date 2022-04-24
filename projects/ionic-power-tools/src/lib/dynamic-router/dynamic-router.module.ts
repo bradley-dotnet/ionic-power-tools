@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicRouterService } from './services/dynamic-router.service';
+import { DynamicRouter } from './services/dynamic-router.service';
 import { RouteTreeTraverserService } from './services/route-tree-traverser.service';
 import { DynamicRouterLinkDirective } from './directives/dynamic-router-link.directive';
 import { DynamicRouterLinkHrefDirective } from './directives/dynamic-router-link-href.directive';
@@ -25,7 +25,7 @@ export class DynamicRouterModule {
     return {
       ngModule: DynamicRouterModule,
       providers: [
-        DynamicRouterService,
+        DynamicRouter,
         RouteTreeTraverserService
       ]
     };

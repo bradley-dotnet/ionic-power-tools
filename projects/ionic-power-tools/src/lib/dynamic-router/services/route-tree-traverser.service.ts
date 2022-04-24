@@ -4,9 +4,8 @@ import { DynamicRoute, EagerRoute, LazyChildren, LazyRoute } from '../dynamic-ro
 
 @Injectable()
 export class RouteTreeTraverserService<TNavTargets> {
-  public mapTargets(routes: Routes): Map<TNavTargets, string[]> {
-    // Cast the routes; we have to assume they are dynamic routes
-    return this.createTargetMap(routes as (DynamicRoute<TNavTargets> | LazyChildren<TNavTargets, number>)[], []);
+  public mapTargets(routes: DynamicRoute<TNavTargets>[]): Map<TNavTargets, string[]> {
+    return this.createTargetMap(routes, []);
   }
 
   private createTargetMap(routes: (DynamicRoute<TNavTargets> | LazyChildren<TNavTargets, number>)[], parents: string[]): Map<TNavTargets, string[]> {
@@ -40,6 +39,6 @@ export class RouteTreeTraverserService<TNavTargets> {
   }
 
   private isLazyRoute(route: DynamicRoute<TNavTargets> | LazyChildren<TNavTargets, number>): route is LazyRoute<TNavTargets, number> {
-    return (route as LazyRoute<TNavTargets, number>).loadChildren !== undefined;
+    return (route as LazyRoute<TNavTargets, number>).childRouteConfigs !== undefined;
   }
 }
