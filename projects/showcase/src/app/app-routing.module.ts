@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DynamicRoute } from 'ionic-power-tools';
 import { DialogComponent } from './dialog/dialog.component';
-import { dynamicRouterRoutes } from './dynamic-router/dynamic-router-routing.module';
+import { dynamicRouterRoutes } from './dynamic-router/dynamic-router.routes';
 import { FormInputComponent } from './form-input/form-input.component';
 import { HomeComponent } from './home/home.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
