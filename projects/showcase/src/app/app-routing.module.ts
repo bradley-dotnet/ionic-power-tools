@@ -35,7 +35,7 @@ const routes: DynamicRoute<NavigationTargets>[] = [
     navigationTarget: NavigationTargets.FormInput,
   },
   {
-    path: 'dyanmic-router',
+    path: 'dynamic-router',
     loadChildren: () => import('./dynamic-router/dynamic-router.module').then(m => m.DynamicRouterModule),
     childRouteConfigs: dynamicRouterRoutes,
   }
