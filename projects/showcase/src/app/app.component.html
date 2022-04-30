@@ -1,47 +1,52 @@
 <ion-app>
-  <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button [autoHide]="false"></ion-menu-button>
-        </ion-buttons>
-        <ion-title routerLink="/">
-          <span>Ionic Power Tools</span>
-          <ng-container *ngIf="title$ | async as title">
-            <span> - {{title}}</span>
-          </ng-container>
-        </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-router-outlet id="main-outlet"></ion-router-outlet>
-  </ion-content>
+    <ion-split-pane when="md" contentId="main-outlet">
+        <!--Hamburger Menu -->
+        <ion-menu side="start" contentId="main-outlet" #menu>
+            <ion-header>
+                <ion-toolbar translucent>
+                    <ion-title>Components</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content>
+                <ion-list>
+                    <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.LoadingSpinner">
+                        <ion-spinner slot="start"></ion-spinner>
+                        <ion-label>Loading Spinner</ion-label>
+                    </ion-item>
+                    <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.Dialog">
+                        <ion-icon name="browsers-outline"></ion-icon>
+                        <ion-label>Dialogs</ion-label>
+                    </ion-item>
+                    <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.FormInput">
+                        <ion-icon name="warning"></ion-icon>
+                        <ion-label>Form Input</ion-label>
+                    </ion-item>
+                    <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.DynamicRouter">
+                        <ion-icon name="link"></ion-icon>
+                        <ion-label>Dynamic Router</ion-label>
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-menu>
 
-  <!--Hamburger Menu -->
-  <ion-menu side="start" contentId="main-outlet" #menu>
-    <ion-header>
-      <ion-toolbar translucent>
-        <ion-title>Components</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.LoadingSpinner">
-          <ion-spinner slot="start"></ion-spinner>
-          <ion-label>Loading Spinner</ion-label>
-        </ion-item>
-        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.Dialog">
-          <ion-icon name="browsers-outline"></ion-icon>
-          <ion-label>Dialogs</ion-label>
-        </ion-item>
-        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.FormInput">
-          <ion-icon name="warning"></ion-icon>
-          <ion-label>Form Input</ion-label>
-        </ion-item>
-        <ion-item (click)="menu.close()" [button]="true" [iptDynamicRouterLink]="NavigationTargets.DynamicRouter">
-          <ion-icon name="link"></ion-icon>
-          <ion-label>Dynamic Router</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
+        <!-- Main Content -->
+        <div class="ion-page" id="main-outlet">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+                    <ion-title routerLink="/">
+                        <span>Ionic Power Tools</span>
+                        <ng-container *ngIf="title$ | async as title">
+                            <span> - {{title}}</span>
+                        </ng-container>
+                    </ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content>
+                <ion-router-outlet></ion-router-outlet>
+            </ion-content>
+        </div>
+    </ion-split-pane>
 </ion-app>
