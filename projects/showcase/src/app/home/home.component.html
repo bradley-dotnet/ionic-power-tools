@@ -1,0 +1,63 @@
+<ion-content class="ion-padding">
+    <h1>Supercharging Ionic Development</h1>
+    
+    <p>
+        Welcome to the documentation pages for Ionic Power Tools. Here you'll find demos, example code, and our API reference to the must-have library for all Ionic Angular apps.
+    </p>
+
+    <h2>Components</h2>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" size-sm="6" size-xl>
+                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.LoadingSpinner">
+                    <ion-card-header>
+                        <ion-card-title>
+                            Loading Spinner
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        Quickly connect any RxJS observable to the <code>ion-spinner</code> component
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-xl>
+                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.Dialog">
+                    <ion-card-header>
+                        <ion-card-title>
+                            Dynamic Dialog
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        Create a custom dialog that can pass strongly-typed data back to the caller using RxJS
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-xl>
+                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.FormInput">
+                    <ion-card-header>
+                        <ion-card-title>
+                            Form Input
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        Adds validation, required *, and error messages (with on touched support) for form controls
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col size="12" size-sm="6" size-xl>
+                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.DynamicRouter">
+                    <ion-card-header>
+                        <ion-card-title>
+                            Dynamic Router
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        Prevent link-rot by making routing tables the single-source-of-truth and use TypeScript enums for linking in components or templates
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

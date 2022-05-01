@@ -36,7 +36,7 @@
                     <ion-buttons slot="start">
                         <ion-menu-button></ion-menu-button>
                     </ion-buttons>
-                    <ion-title routerLink="/">
+                    <ion-title [iptDynamicRouterLink]="NavigationTargets.Home">
                         <span>Ionic Power Tools</span>
                         <ng-container *ngIf="title$ | async as title">
                             <span> - {{title}}</span>
