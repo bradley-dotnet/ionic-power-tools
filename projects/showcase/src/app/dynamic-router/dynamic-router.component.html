@@ -1,3 +1,90 @@
-<ion-content>
-    <h5>This whole site uses Dynamic Router!</h5>
+<ion-content class="ion-padding">
+    <h2>Dynamic Router</h2>
+
+    <h3 id="setup">Routing Table Setup</h3>
+    <ol>
+        <li>Create an enum representing routes for each routing module:
+            <pre>
+                export enum NavigationTargets {{'{'}}
+                    Home,
+                    Tasks,
+                    Details
+                }
+            </pre>
+        </li>
+        <li>Import <code>DynamicRoute</code> into each routing module:
+            <pre>
+            import {{'{'}} DynamicRoute } from 'ionic-power-tools';
+        </pre>
+        </li>
+        <li>Change your existing <code>Routes</code> array definition to instead use <code>DynamicRoute&lt;NavigationTargets&gt;[]</code>:
+            <pre>
+                const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [ ... ];
+            </pre>
+        </li>
+        <li>For each non-nested route with a path defined, add a <code>navigationTarget</code> assignment to the corresponding enum value:
+            <pre>
+                const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [
+                    {{'{'}}
+                      path: '',
+                      redirectTo: 'home',
+                      pathMatch: 'full'
+                    },
+                    {{'{'}}
+                      path: 'home',
+                      component: HomeComponent,
+                      navigationTarget: NavigationTargets.Home
+                    },
+                    {{'{'}}
+                      path: 'tasks',
+                      component: TasksComponent,
+                      navigationTarget: NavigationTargets.Tasks
+                    },
+                    ...
+                  ];
+            </pre>
+        </li>        
+    </ol>
+
+    <h3 id="nav-from-html">Navigation From HTML Templates</h3>
+    <ol>
+        <li>Add an enum property to the component to enable enum value binding:
+            <pre>
+                public NavigationTargets = NavigationTargets;
+            </pre>
+        </li>
+        <li>
+            Replace each <code>routerLink</code> and its hardcoded path with <code>iptDynamicRouterLink</code> and an enum value:
+            <pre>
+                &lt;ion-item [button]="true" [iptDynamicRouterLink]="NavigationTargets.Tasks"&gt;
+                    &lt;ion-label&gt;Tasks&lt;/ion-label&gt;
+                &lt;/ion-item&gt;
+            </pre>
+        </li>
+    </ol>
+
+    <h3 id="nav-from-ts">Navigation From TypeScript Components</h3>
+    <ol>
+        <li>Import <code></code> into component file.</li>
+        <li>Replace <code>Router</code> with <code></code></li>
+        <li>Replace calls to <code>Router.navigate()</code> with <code></code> using the enum:
+        </li>
+    </ol>
+
+    <h2>Lazy Loaded Routes</h2>
+    <h3>Coming Soon</h3>
+    <ol>
+        <li>For routes that have their own lazy-loaded routing module, specify the <code>navigationTarget</code> inside the nested routing module's empty path (<code>path: ''</code>) route:
+            <h4>app-routing.module.ts</h4>
+            <pre>
+                ...
+                {{'{'}}
+                    path: 'details',
+                    loadChildren: () => import('./details/details-routing.module').then(m => m.DetailsRoutingModule),
+                    childRouteConfigs: dynamicRouterRoutes,
+                }
+
+            </pre>
+        </li>
+    </ol>
 </ion-content>
