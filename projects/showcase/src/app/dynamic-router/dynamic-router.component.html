@@ -1,77 +1,118 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding doc">
     <h2>Dynamic Router</h2>
 
-    <h3 id="setup">Routing Table Setup</h3>
+    <h3 id="setup">Routing Table Setup <a routerLink="." fragment="setup">#</a></h3>
     <ol>
-        <li>Create an enum representing routes for each routing module:
-            <pre>
-                export enum NavigationTargets {{'{'}}
-                    Home,
-                    Tasks,
-                    Details
-                }
-            </pre>
+        <li>Create an enum with values representing each route you would like to navigate to:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>navigation-targets.enum</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+export enum NavigationTargets {{'{'}}
+    Home,
+    Tasks,
+    Details
+}</pre>
+                </ion-card-content>
+            </ion-card>
         </li>
         <li>Import <code>DynamicRoute</code> into each routing module:
-            <pre>
-            import {{'{'}} DynamicRoute } from 'ionic-power-tools';
-        </pre>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>import {{'{'}} DynamicRoute } from 'ionic-power-tools';</pre>
+                </ion-card-content>
+            </ion-card>
         </li>
         <li>Change your existing <code>Routes</code> array definition to instead use <code>DynamicRoute&lt;NavigationTargets&gt;[]</code>:
-            <pre>
-                const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [ ... ];
-            </pre>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [ ... ];</pre>
+                </ion-card-content>
+            </ion-card>
         </li>
         <li>For each non-nested route with a path defined, add a <code>navigationTarget</code> assignment to the corresponding enum value:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>                    
             <pre>
-                const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [
-                    {{'{'}}
-                      path: '',
-                      redirectTo: 'home',
-                      pathMatch: 'full'
-                    },
-                    {{'{'}}
-                      path: 'home',
-                      component: HomeComponent,
-                      navigationTarget: NavigationTargets.Home
-                    },
-                    {{'{'}}
-                      path: 'tasks',
-                      component: TasksComponent,
-                      navigationTarget: NavigationTargets.Tasks
-                    },
-                    ...
-                  ];
-            </pre>
+const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [
+    {{'{'}}
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {{'{'}}
+        path: 'home',
+        component: HomeComponent,
+        navigationTarget: NavigationTargets.Home
+    },
+    {{'{'}}
+        path: 'tasks',
+        component: TasksComponent,
+        navigationTarget: NavigationTargets.Tasks
+    },
+    ...
+];</pre>
+        </ion-card-content>
+    </ion-card>
         </li>        
     </ol>
 
-    <h3 id="nav-from-html">Navigation From HTML Templates</h3>
+    <h3 id="nav-from-html">Navigation From HTML Templates <a routerLink="." fragment="nav-from-html">#</a></h3>
     <ol>
         <li>Add an enum property to the component to enable enum value binding:
-            <pre>
-                public NavigationTargets = NavigationTargets;
-            </pre>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+import {{'{'}} NavigationTargets } from './navigation-targets.enum';
+
+@Component({{'{'}}...})
+export class HomeComponent {{'{'}}
+    ...
+
+    public NavigationTargets = NavigationTargets;
+}</pre>
+                </ion-card-content>
+            </ion-card>
         </li>
         <li>
             Replace each <code>routerLink</code> and its hardcoded path with <code>iptDynamicRouterLink</code> and an enum value:
-            <pre>
-                &lt;ion-item [button]="true" [iptDynamicRouterLink]="NavigationTargets.Tasks"&gt;
-                    &lt;ion-label&gt;Tasks&lt;/ion-label&gt;
-                &lt;/ion-item&gt;
-            </pre>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app.component.html</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+&lt;ion-item [button]="true" [iptDynamicRouterLink]="NavigationTargets.Tasks"&gt;
+    &lt;ion-label&gt;Tasks&lt;/ion-label&gt;
+&lt;/ion-item&gt;</pre>
+                </ion-card-content>
+            </ion-card>            
         </li>
     </ol>
 
-    <h3 id="nav-from-ts">Navigation From TypeScript Components</h3>
+    <h3 id="nav-from-ts">Navigation From TypeScript Components <a routerLink="." fragment="nav-from-ts">#</a></h3>
     <ol>
-        <li>Import <code></code> into component file.</li>
-        <li>Replace <code>Router</code> with <code></code></li>
-        <li>Replace calls to <code>Router.navigate()</code> with <code></code> using the enum:
+        <li>Import <code>TODO</code> into component file.</li>
+        <li>Replace <code>Router</code> with <code>TODO</code></li>
+        <li>Replace calls to <code>Router.navigate()</code> with <code>TODO</code> using the enum:
         </li>
     </ol>
 
-    <h2>Lazy Loaded Routes</h2>
+    <h2 id="nested-routes">Lazy Loaded Routes <a routerLink="." fragment="nested-routes">#</a></h2>
     <h3>Coming Soon</h3>
     <ol>
         <li>For routes that have their own lazy-loaded routing module, specify the <code>navigationTarget</code> inside the nested routing module's empty path (<code>path: ''</code>) route:
