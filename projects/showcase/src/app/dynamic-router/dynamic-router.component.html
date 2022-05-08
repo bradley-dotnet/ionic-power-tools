@@ -18,7 +18,7 @@ export enum NavigationTargets {{'{'}}
                 </ion-card-content>
             </ion-card>
         </li>
-        <li>Import <code>DynamicRoute</code> into each routing module:
+        <li>Import <code>DynamicRoute</code> into your routing module:
             <ion-card>
                 <ion-card-header color="primary">
                     <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
@@ -80,7 +80,7 @@ const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [
 import {{'{'}} NavigationTargets } from './navigation-targets.enum';
 
 @Component({{'{'}}...})
-export class HomeComponent {{'{'}}
+export class AppComponent {{'{'}}
     ...
 
     public NavigationTargets = NavigationTargets;
@@ -89,7 +89,7 @@ export class HomeComponent {{'{'}}
             </ion-card>
         </li>
         <li>
-            Replace each <code>routerLink</code> and its hardcoded path with <code>iptDynamicRouterLink</code> and an enum value:
+            Replace each <code>routerLink</code> directive and its hardcoded path with <code>iptDynamicRouterLink</code> and an enum value:
             <ion-card>
                 <ion-card-header color="primary">
                     <ion-card-subtitle>app.component.html</ion-card-subtitle>
@@ -105,10 +105,54 @@ export class HomeComponent {{'{'}}
     </ol>
 
     <h3 id="nav-from-ts">Navigation From TypeScript Components <a routerLink="." fragment="nav-from-ts">#</a></h3>
+    <form (ngSubmit)="goToTarget()">
+        <ion-select [formControl]="selectedTarget">
+            <ion-select-option [value]="NavigationTargets.Home">Home</ion-select-option>
+            <ion-select-option [value]="NavigationTargets.Dialog">Dialog</ion-select-option>
+            <ion-select-option [value]="NavigationTargets.DynamicRouter">Dynamic Router</ion-select-option>
+            <ion-select-option [value]="NavigationTargets.FormInput">Form Input</ion-select-option>
+            <ion-select-option [value]="NavigationTargets.LoadingSpinner">Loading Spinner</ion-select-option>
+        </ion-select>
+        <p>Selected target: {{JSON.stringify(selectedTarget.value)}}</p>
+        <ion-button type="submit">Click to Go</ion-button> 
+    </form>
     <ol>
-        <li>Import <code>TODO</code> into component file.</li>
-        <li>Replace <code>Router</code> with <code>TODO</code></li>
-        <li>Replace calls to <code>Router.navigate()</code> with <code>TODO</code> using the enum:
+        <li>Import <code>DynamicRouter</code> and navigation target enum into component file.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>home.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+import {{'{'}} DynamicRouter } from 'ionic-power-tools';
+import {{'{'}} NavigationTargets } from '../navigation-targets.enum';</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Replace <code>Router</code> with <code>DynamicRouter&lt;TNavTargets&gt;</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>home.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+export class HomeComponent {{'{'}}
+    constructor(private dynamicRouter: DynamicRouter&lt;NavigationTargets&gt;) {{'{'}}}
+
+    ...
+}</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Replace calls to <code>Router.navigate()</code> with <code>DynamicRouter.navigateTo</code> using the enum:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>home.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>this.dynamicRouter.navigateTo(NavigationTargets.Tasks);</pre>
+                </ion-card-content>
+            </ion-card>
         </li>
     </ol>
 
