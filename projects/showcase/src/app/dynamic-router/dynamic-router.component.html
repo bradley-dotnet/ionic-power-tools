@@ -1,7 +1,7 @@
 <ion-content class="ion-padding doc">
     <h2>Dynamic Router</h2>
 
-    <h3 id="setup">Routing Table Setup <a routerLink="." fragment="setup">#</a></h3>
+    <h3 id="setup">Routing Table Setup</h3>
     <ol>
         <li>Create an enum with values representing each route you would like to navigate to:
             <ion-card>
@@ -68,7 +68,7 @@ const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [
         </li>        
     </ol>
 
-    <h3 id="nav-from-html">Navigation From HTML Templates <a routerLink="." fragment="nav-from-html">#</a></h3>
+    <h3 id="nav-from-html">Navigation From HTML Templates</h3>
     <ol>
         <li>Add an enum property to the component to enable enum value binding:
             <ion-card>
@@ -104,18 +104,29 @@ export class AppComponent {{'{'}}
         </li>
     </ol>
 
-    <h3 id="nav-from-ts">Navigation From TypeScript Components <a routerLink="." fragment="nav-from-ts">#</a></h3>
-    <form (ngSubmit)="goToTarget()">
-        <ion-select [formControl]="selectedTarget">
-            <ion-select-option [value]="NavigationTargets.Home">Home</ion-select-option>
-            <ion-select-option [value]="NavigationTargets.Dialog">Dialog</ion-select-option>
-            <ion-select-option [value]="NavigationTargets.DynamicRouter">Dynamic Router</ion-select-option>
-            <ion-select-option [value]="NavigationTargets.FormInput">Form Input</ion-select-option>
-            <ion-select-option [value]="NavigationTargets.LoadingSpinner">Loading Spinner</ion-select-option>
-        </ion-select>
-        <p>Selected target: {{JSON.stringify(selectedTarget.value)}}</p>
-        <ion-button type="submit">Click to Go</ion-button> 
-    </form>
+    <h3 id="nav-from-ts">Navigation From TypeScript Components</h3>
+    
+    <ion-card>
+        <ion-card-header color="light">
+            <ion-card-subtitle>Demo</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <form (ngSubmit)="goToTarget()">
+                <ion-item>
+                    <ion-label>Select a Target</ion-label>
+                    <ion-select [formControl]="selectedTarget">
+                        <ion-select-option [value]="NavigationTargets.Home">Home</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.Dialog">Dialog</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.DynamicRouter">Dynamic Router</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.FormInput">Form Input</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.LoadingSpinner">Loading Spinner</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-button type="submit">Click to Go</ion-button> 
+            </form>
+        </ion-card-content>
+    </ion-card>
+
     <ol>
         <li>Import <code>DynamicRouter</code> and navigation target enum into component file.
             <ion-card>
@@ -156,7 +167,7 @@ export class HomeComponent {{'{'}}
         </li>
     </ol>
 
-    <h2 id="nested-routes">Lazy Loaded Routes <a routerLink="." fragment="nested-routes">#</a></h2>
+    <h2 id="nested-routes">Lazy Loaded Routes</h2>
     <h3>Coming Soon</h3>
     <ol>
         <li>For routes that have their own lazy-loaded routing module, specify the <code>navigationTarget</code> inside the nested routing module's empty path (<code>path: ''</code>) route:

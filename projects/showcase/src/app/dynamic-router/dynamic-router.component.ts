@@ -13,12 +13,10 @@ export class DynamicRouterComponent {
 
     constructor(
         private readonly appStore: AppStateStoreService,
-        private dynamicRouter: DynamicRouter<NavigationTargets>
+        private readonly dynamicRouter: DynamicRouter<NavigationTargets>
     ) { }
 
     public NavigationTargets = NavigationTargets;
-
-    public JSON = JSON;
 
     public selectedTarget = new FormControl(NavigationTargets.Dialog);
 
@@ -27,7 +25,6 @@ export class DynamicRouterComponent {
     }
 
     public goToTarget(): void {
-        console.log(this.selectedTarget.value);
         this.dynamicRouter.navigateTo(this.selectedTarget.value);
     }
 
