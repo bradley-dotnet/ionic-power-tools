@@ -1,3 +1,186 @@
-<ion-content>
-    <h5>This whole site uses Dynamic Router!</h5>
+<ion-content class="ion-padding doc">
+    <h2>Dynamic Router</h2>
+
+    <h3 id="setup">Routing Table Setup</h3>
+    <ol>
+        <li>Create an enum with values representing each route you would like to navigate to:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>navigation-targets.enum</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+export enum NavigationTargets {{'{'}}
+    Home,
+    Tasks,
+    Details
+}</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Import <code>DynamicRoute</code> into your routing module:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>import {{'{'}} DynamicRoute } from 'ionic-power-tools';</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Change your existing <code>Routes</code> array definition to instead use <code>DynamicRoute&lt;NavigationTargets&gt;[]</code>:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [ ... ];</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>For each non-nested route with a path defined, add a <code>navigationTarget</code> assignment to the corresponding enum value:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>                    
+            <pre>
+const routes: DynamicRoute&lt;NavigationTargets&gt;[] = [
+    {{'{'}}
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {{'{'}}
+        path: 'home',
+        component: HomeComponent,
+        navigationTarget: NavigationTargets.Home
+    },
+    {{'{'}}
+        path: 'tasks',
+        component: TasksComponent,
+        navigationTarget: NavigationTargets.Tasks
+    },
+    ...
+];</pre>
+        </ion-card-content>
+    </ion-card>
+        </li>        
+    </ol>
+
+    <h3 id="nav-from-html">Navigation From HTML Templates</h3>
+    <ol>
+        <li>Add an enum property to the component to enable enum value binding:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+import {{'{'}} NavigationTargets } from './navigation-targets.enum';
+
+@Component({{'{'}}...})
+export class AppComponent {{'{'}}
+    ...
+
+    public NavigationTargets = NavigationTargets;
+}</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>
+            Replace each <code>routerLink</code> directive and its hardcoded path with <code>iptDynamicRouterLink</code> and an enum value:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app.component.html</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+&lt;ion-item [button]="true" [iptDynamicRouterLink]="NavigationTargets.Tasks"&gt;
+    &lt;ion-label&gt;Tasks&lt;/ion-label&gt;
+&lt;/ion-item&gt;</pre>
+                </ion-card-content>
+            </ion-card>            
+        </li>
+    </ol>
+
+    <h3 id="nav-from-ts">Navigation From TypeScript Components</h3>
+    
+    <ion-card>
+        <ion-card-header color="light">
+            <ion-card-subtitle>Demo</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <form (ngSubmit)="goToTarget()">
+                <ion-item>
+                    <ion-label>Select a Target</ion-label>
+                    <ion-select [formControl]="selectedTarget">
+                        <ion-select-option [value]="NavigationTargets.Home">Home</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.Dialog">Dialog</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.DynamicRouter">Dynamic Router</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.FormInput">Form Input</ion-select-option>
+                        <ion-select-option [value]="NavigationTargets.LoadingSpinner">Loading Spinner</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-button type="submit">Click to Go</ion-button> 
+            </form>
+        </ion-card-content>
+    </ion-card>
+
+    <ol>
+        <li>Import <code>DynamicRouter</code> and navigation target enum into component file.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>home.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+import {{'{'}} DynamicRouter } from 'ionic-power-tools';
+import {{'{'}} NavigationTargets } from '../navigation-targets.enum';</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Replace <code>Router</code> with <code>DynamicRouter&lt;TNavTargets&gt;</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>home.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+export class HomeComponent {{'{'}}
+    constructor(private dynamicRouter: DynamicRouter&lt;NavigationTargets&gt;) {{'{'}}}
+
+    ...
+}</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Replace calls to <code>Router.navigate()</code> with <code>DynamicRouter.navigateTo</code> using the enum:
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>home.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>this.dynamicRouter.navigateTo(NavigationTargets.Tasks);</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+    </ol>
+
+    <h2 id="nested-routes">Lazy Loaded Routes</h2>
+    <h3>Coming Soon</h3>
+    <ol>
+        <li>For routes that have their own lazy-loaded routing module, specify the <code>navigationTarget</code> inside the nested routing module's empty path (<code>path: ''</code>) route:
+            <h4>app-routing.module.ts</h4>
+            <pre>
+                ...
+                {{'{'}}
+                    path: 'details',
+                    loadChildren: () => import('./details/details-routing.module').then(m => m.DetailsRoutingModule),
+                    childRouteConfigs: dynamicRouterRoutes,
+                }
+
+            </pre>
+        </li>
+    </ol>
 </ion-content>
