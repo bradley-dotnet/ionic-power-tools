@@ -1,3 +1,62 @@
-<ion-content>
-    <ion-button (click)="testSpinner()">Spin for 5 seconds</ion-button>
+<ion-content class="ion-padding doc">
+    <h2>Loading Spinner</h2>
+    Manually controling loading spinners is verbose and error-prone. This module allows control of Ionic's <code>LoadingController</code>
+    through a simple observable operator.
+
+    <h3 id="setup">Using the <code>withSpinner</code> operator</h3>
+    <ol>
+        <li>Import the <code>withSpinner</code> operator.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>page.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'import { withSpinner } from "ionic-power-tools"'}};
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Inject the <code>LoadingController</code> into the component using the spinner.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>page.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'import { LoadingController } from "@ionic/angular";'}}
+constructor(private readonly loading: LoadingController) {{'{'}}
+}
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>
+            At the end of an operator chain, use the <code>withSpinner</code> operator. It will start the spinner
+            when the observable is subscribed to, and stop it on the first emission, completion, or error.
+            As an optional second argument, pass <code>LoadingOptions</code> to pass along to the <code>LoadingController</code>.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>page.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+longOperation(): void {{'{'}}
+    someObservable$.pipe(
+        withSpinner(this.loading)
+    ).subscribe();
+}
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+    </ol>
+    <ion-card>
+        <ion-card-header color="light">
+            <ion-card-subtitle>Demo</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-button (click)="testSpinner()">Spin for 5 seconds</ion-button>
+        </ion-card-content>
+    </ion-card>
 </ion-content>
