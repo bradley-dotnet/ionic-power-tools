@@ -1,5 +1,9 @@
 <ion-content class="ion-padding doc">
     <h2>Dynamic Router</h2>
+    When moving or refactoring routes, it's easy to forget to update a link or navigation command in the application.
+    Dynamic Routing changes hard-coded links to compile-time enums that are then mapped to correct URLs at runtime,
+    making broken links a thing of the past. It also enables better validation of route parameters prior to navigation
+    and provides a cleaner API to routing in general.
 
     <h3 id="setup">Routing Table Setup</h3>
     <ol>
@@ -38,7 +42,7 @@ export enum NavigationTargets {{'{'}}
                 </ion-card-content>
             </ion-card>
         </li>
-        <li>For each non-nested route with a path defined, add a <code>navigationTarget</code> assignment to the corresponding enum value:
+        <li>For each eagerly route with a path defined, add a <code>navigationTarget</code> assignment to the corresponding enum value:
             <ion-card>
                 <ion-card-header color="primary">
                     <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
@@ -167,20 +171,99 @@ export class HomeComponent {{'{'}}
         </li>
     </ol>
 
-    <h2 id="nested-routes">Lazy Loaded Routes</h2>
-    <h3>Coming Soon</h3>
+    <h2 id="lazy-loaded-routes">Lazy Loaded Routes</h2>
     <ol>
-        <li>For routes that have their own lazy-loaded routing module, specify the <code>navigationTarget</code> inside the nested routing module's empty path (<code>path: ''</code>) route:
-            <h4>app-routing.module.ts</h4>
-            <pre>
-                ...
-                {{'{'}}
-                    path: 'details',
-                    loadChildren: () => import('./details/details-routing.module').then(m => m.DetailsRoutingModule),
-                    childRouteConfigs: dynamicRouterRoutes,
-                }
+        <li>Move the routes array from the <code>child-routing.module.ts</code> into a file called <code>child.routes.ts</code></li>
+        <li>Define an enum with an entry for each component that will appear in the route configuration
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>child.routes.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+export enum ChildComponents {{'{'}}
+    ListComponent,
+    DetailsComponent
+}</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Redfine the array as a <code>DynamicRoute{{'\<TNavigationTargets, TComponent>'}}</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>child.routes.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+export const childRoutes: {{'DynamicRoute\<NavigationTargets, ChildComponents>'}} = [</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Replace all <code>component</code> field values with the corresponding enum member
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>child.routes.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'{'}}
+    path: '',
+    component: ChildComponents.ListComponent,
+    children: [
+        {{'{'}}
+            path: ':itemId',
+            component: ChildComponents.DetailsComponent
+        }
+    ]
+},
+                    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>In the feature routing module, use the provided <code>populateRoutes</code> method in <code>RouterModule.forChild</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>child-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'import { populateComponents \} from "ionic-power-tools";'}}
+{{'import { ListComponent } from "./list.component";'}}
+{{'import { DetailsComponent } from "./details.component";'}}
+{{'import { ChildComponents, childRoutes } from "./child.routes";'}}
 
-            </pre>
+const componentMap: Record{{'\<ChildComponents, Type\<any\>\> = {'}}
+    [ChildComponents.List]: ListComponent,
+    [ChildComponents.Details]: DetailsComponent
+{{'}'}}
+
+
+{{'@NgModule({'}}
+    imports: [RouterModule.forChild(populateComponents(componentMap, childRoutes))],
+    exports: [RouterModule]
+{{'})'}}
+export class ChildRoutingModule {{'{'}} {{'}'}}
+                    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>From the root routing module, lazy loaded routes are the same as usual but with <code>childRouteConfigs</code>
+            specified, pointing to the unpopulated route config
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app-routing.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+...
+{{'{'}}
+    path: 'child',
+    loadChildren: () => import('./child/child-routing.module').then(m => m.ChildRoutingModule),
+    childRouteConfigs: childRoutes,
+}
+</pre>
+                </ion-card-content>
+            </ion-card>
         </li>
     </ol>
 </ion-content>

@@ -1,7 +1,131 @@
-<ion-content>
-    <div *ngIf="form" [formGroup]="form">
-        <ipt-form-input label="Required Test">
-            <ion-input iptInputElement formControlName="requiredTest"></ion-input>
-        </ipt-form-input>
-    </div>
+<ion-content class="ion-padding doc">
+    <h2>Form Input</h2>
+    Form labels and error messages are some of the most repetitive, copy-pasted code in an application.
+    The form input control combines any input with an automatic label layout that also puts the * next to any input that is required, automatically.
+    Any error messages are also automatically displayed, with a full suite of messages for standard Angular validators already provided.
+    Adding messages for your own custom validators is also supported.
+
+    <h3 id="setup">Using a form input</h3>
+    <ol>
+        <li>Import the <code>PowerToolsFormsModule</code> into app module, with <code>forRoot()</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'import { PowerToolsFormsModule } from "ionic-power-tools"'}};
+...
+imports: [
+    PowerToolsFormsModule.forRoot(),
+    ...
+]
+    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Wrap the input control in a <code>ipt-form-input</code> Provide a label via the <code>label</code> input
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>form.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'\<ipt-form-input label="Required Test">'}}
+    {{'\<ion-input iptInputElement formControlName="requiredTest">\</ion-input>'}}
+{{'\</ipt-form-input>'}}
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Mark the control that should be tracked for errors with the <code>iptInputElement</code> directive
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>form.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'\<ion-input iptInputElement formControlName="requiredTest">\</ion-input>'}}
+    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+    </ol>
+    <ion-card>
+        <ion-card-header color="light">
+            <ion-card-subtitle>Demo</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <div *ngIf="form" [formGroup]="form">
+                <ipt-form-input label="Name">
+                    <ion-input iptInputElement formControlName="requiredTest"></ion-input>
+                </ipt-form-input>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+
+    <h3 id="message-customization">Customizing Error Messages</h3>
+    <ol>
+        <li>Define a constant of type <code>AngularValidationMessages</code>
+        Each field is a delegate for displaying a given error message. Parameters provided by the error object are also provided.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>custom-messages.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'import { AngularValidationMessages } from "ionic-power-tools"'}};
+export validationMessages: AngularValidationMessages = {{'{'}}
+    min: (label, {{'{min, actual}'}}) => {{'{'}}
+        {{'return `${actual} ${label} is less than the allowed ${min}`;'}}
+    },
+    max: (label, {{'{max, actual}'}}) => {{'{'}}
+        {{'return `${actual} ${label} is greater than the allowed ${max}`;'}}
+    },
+    required: (label) => {{'{'}}
+        {{'return `${label} is required`;'}}
+    },
+    email: (label) => {{'{'}}
+        {{'return `${label} must be a valid email`;'}}
+    },
+    minlength: (label, {{'{requiredLength, actualLength}'}}) => {{'{'}}
+        {{'return `${label} must be at least ${requiredLength} characters long but is only ${actualLength}`;'}}
+    },
+    maxlength: (label, {{'{requiredLength, actualLength}'}}) => {{'{'}}
+        {{'return `${label} must be no more than ${requiredLength} characters long but is ${actualLength}`;'}}
+    },
+    pattern: (label, {{'{requiredPattern, actualValue}'}}) => {{'{'}}
+        {{'return `${label} must match ${requiredPattern}`;'}}
+    }
+}
+    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Pass the new message configuration to the module <code>forRoot</code>
+        <ion-card>
+            <ion-card-header color="primary">
+                <ion-card-subtitle>app.module.ts</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <pre>
+{{'import { PowerToolsFormsModule } from "ionic-power-tools"'}};
+...
+imports: [
+    PowerToolsFormsModule.forRoot(validationMessages),
+    ...
+]
+        </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+    </ol>
+    <h3 id="custom-validators">Adding Messages for Custom Validators</h3>
+    There are two ways to provide a custom error message
+    <ul>
+        <li>When returning from a <code>ValidatorFn</code> return the error message as the value of the error key</li>
+        <li>Extend <code>AngularValidationMessages</code> with your own message delegates. Each key matches one for the errors object.
+        Then provide the new message to the module as above. The new delegates will be called as if they were built-in Angular validation errors.</li>
+    </ul>
 </ion-content>

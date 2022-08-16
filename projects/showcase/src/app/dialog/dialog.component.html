@@ -1,7 +1,154 @@
-<ion-content>
-    <ion-button (click)="getUserName()">Enter Name</ion-button>
-    <ion-item *ngIf="name$">
-        <ion-label>Name: </ion-label>
-        <ion-label>{{name$ | async}}</ion-label>
-    </ion-item>
+<ion-content class="ion-padding doc">
+    <h2>Dynamic Dialogs</h2>
+    Static dialogs are clunky to use and a very good way to slow down your application. This module uses Ionic's <code>Modal Controller</code>
+    to create dynamic dialogs; but provides a simple, single call/observable interface to consumers.
+
+    <h3 id="setup">Creating a dynamic dialog</h3>
+    <ol>
+        <li>Import the <code>PowerToolsFormsModule</code> into app module, with <code>forRoot()</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'import { DynamicDialogModule } from "ionic-power-tools"'}};
+...
+imports: [
+    DynamicDialogModule.forRoot(),
+    ...
+]
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Create a content component. This component must implement <code>{{'DynamicDialogContent\<TOut>'}}</code>
+            The <code>complete$</code> observable should fire whenever the dialog is accepted, and provide the return value
+            that will come back through the service call.
+        <ion-card>
+            <ion-card-header color="primary">
+                <ion-card-subtitle>name-dialog.component.ts</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <pre>
+{{'import { DynamicDialogContent } from "ionic-power-tools"'}};
+{{'@Component({'}}
+    templateUrl: './name-dialog.component.html'
+})
+{{'export class NameDialogComponent implements DynamicDialogContent\<string> {'}}
+    {{'complete$: Subject\<string> = new Subject();'}}
+    nameControl: FormControl = new FormControl();
+
+    public submit(): void {{'{'}}
+        this.complete$.next(this.nameControl.value);
+    }
+}
+
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Inject the <code>DynamicDialogService</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>page.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+{{'import { DynamicDialogService } from "ionic-power-tools"'}};
+constructor(private readonly dialogs: DynamicDialogService) {{'{'}}
+}
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Invoke the <code>showDialogMethod</code>. The first argument is the component implementing <code>DynamicDialogContent</code>.
+            The second, optional, argument matches the standard Ionic <code>ModalOptions</code> except for the component fields. The
+            output type will match that of the passed content component.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>page.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+getDialogResult(): {{'Observable\<string>'}} {{'{'}}
+    {{'let result$: Observable\<string>;'}}
+    result$ = this.dialogs.showDialog({{'{'}}
+        NameDialogComponent
+    });
+    return result$;
+}
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+    </ol>
+    <ion-card>
+        <ion-card-header color="light">
+            <ion-card-subtitle>Demo</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-button (click)="getUserName()">Enter Name</ion-button>
+            <ion-item *ngIf="name$ | async as name">
+                <ion-label>Entered Name: </ion-label>
+                <ion-label>{{name}}</ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+
+    <h3 id="initialized">Passing Data</h3>
+    Dialogs that need data work the same way as regular dialogs, but with an augmented interface.
+    <ol>
+        <li>Create a content component. This component must implement <code>{{'InitializedDynamicDialogContent\<TIn, TOut>'}}</code>
+            This is the same as <code>{{'DynamicDialogContent\<TOut>'}}</code> with a <code>{{'init(data: TIn)'}}</code> method.
+        <ion-card>
+            <ion-card-header color="primary">
+                <ion-card-subtitle>name-dialog.component.ts</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <pre>
+{{'import { DynamicDialogContent } from "ionic-power-tools"'}};
+{{'@Component({'}}
+    templateUrl: './name-dialog.component.html'
+})
+{{'export class ChangeNameDialogComponent implements InitializedDynamicDialogContent\<string, string> {'}}
+    {{'complete$: Subject\<string> = new Subject();'}}
+    nameControl: FormControl = new FormControl();
+    
+    public init(startingName: string): void {{'{'}}
+        this.nameControl.setValue(startingName);
+    }
+
+    public submit(): void {{'{'}}
+        this.complete$.next(this.nameControl.value);
+    }
+}
+
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Invoke the <code>showInitializedDialog</code>. The first argument is the component implementing <code>InitializedDynamicDialogContent</code>.
+            The second, argument is the input data for the dialog.
+            The third, optional argument matches the standard Ionic <code>ModalOptions</code> except for the component fields. The
+            output type will match that of the passed content component.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>page.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
+getDialogResult(): {{'Observable\<string>'}} {{'{'}}
+    {{'let result$: Observable\<string>;'}}
+    result$ = this.dialogs.showDialog({{'{'}}
+        NameDialogComponent,
+        'Old Name'
+    });
+    return result$;
+}
+</pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+    </ol>
 </ion-content>
