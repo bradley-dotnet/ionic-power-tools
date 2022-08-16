@@ -7,46 +7,49 @@
 
     <h3 id="setup">Using a form input</h3>
     <ol>
-        <li>Import the <code>PowerToolsFormsModule</code> into app module, with <code>forRoot()</code></li>
-        <ion-card>
-            <ion-card-header color="primary">
-                <ion-card-subtitle>app.module.ts</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-                <pre>
+        <li>Import the <code>PowerToolsFormsModule</code> into app module, with <code>forRoot()</code>
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>app.module.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
 {{'import { PowerToolsFormsModule } from "ionic-power-tools"'}};
 ...
 imports: [
     PowerToolsFormsModule.forRoot(),
     ...
 ]
-</pre>
-            </ion-card-content>
-        </ion-card>
-        <li>Wrap the input control in a <code>ipt-form-input</code> Provide a label via the <code>label</code> input</li>
-        <ion-card>
-            <ion-card-header color="primary">
-                <ion-card-subtitle>form.component.ts</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-                <pre>
+    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Wrap the input control in a <code>ipt-form-input</code> Provide a label via the <code>label</code> input
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>form.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
 {{'\<ipt-form-input label="Required Test">'}}
     {{'\<ion-input iptInputElement formControlName="requiredTest">\</ion-input>'}}
 {{'\</ipt-form-input>'}}
 </pre>
-            </ion-card-content>
-        </ion-card>
-        <li>Mark the control that should be tracked for errors with the <code>iptInputElement</code> directive</li>
-        <ion-card>
-            <ion-card-header color="primary">
-                <ion-card-subtitle>form.component.ts</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-                <pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Mark the control that should be tracked for errors with the <code>iptInputElement</code> directive
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>form.component.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
 {{'\<ion-input iptInputElement formControlName="requiredTest">\</ion-input>'}}
-</pre>
-            </ion-card-content>
-        </ion-card>
+    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
     </ol>
     <ion-card>
         <ion-card-header color="light">
@@ -65,13 +68,13 @@ imports: [
     <h3 id="message-customization">Customizing Error Messages</h3>
     <ol>
         <li>Define a constant of type <code>AngularValidationMessages</code>
-        Each field is a delegate for displaying a given error message. Parameters provided by the error object are also provided.</li>
-        <ion-card>
-            <ion-card-header color="primary">
-                <ion-card-subtitle>custom-messages.ts</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-                <pre>
+        Each field is a delegate for displaying a given error message. Parameters provided by the error object are also provided.
+            <ion-card>
+                <ion-card-header color="primary">
+                    <ion-card-subtitle>custom-messages.ts</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <pre>
 {{'import { AngularValidationMessages } from "ionic-power-tools"'}};
 export validationMessages: AngularValidationMessages = {{'{'}}
     min: (label, {{'{min, actual}'}}) => {{'{'}}
@@ -96,10 +99,11 @@ export validationMessages: AngularValidationMessages = {{'{'}}
         {{'return `${label} must match ${requiredPattern}`;'}}
     }
 }
-</pre>
-            </ion-card-content>
-        </ion-card>
-        <li>Pass the new message configuration to the module <code>forRoot</code></li>
+    </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
+        <li>Pass the new message configuration to the module <code>forRoot</code>
         <ion-card>
             <ion-card-header color="primary">
                 <ion-card-subtitle>app.module.ts</ion-card-subtitle>
@@ -112,9 +116,10 @@ imports: [
     PowerToolsFormsModule.forRoot(validationMessages),
     ...
 ]
-    </pre>
-            </ion-card-content>
-        </ion-card>
+        </pre>
+                </ion-card-content>
+            </ion-card>
+        </li>
     </ol>
     <h3 id="custom-validators">Adding Messages for Custom Validators</h3>
     There are two ways to provide a custom error message
