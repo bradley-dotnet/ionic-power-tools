@@ -37,6 +37,9 @@ jobs:
       - name: Build documentation site
         run: ng build showcase --configuration=production
         
+      - name: Fake 404 page
+        run: cp dist/showcase/index.html dist/showcase/404.html
+        
       - name: Deploy to GitHub Pages
         id: upload
         uses: actions/upload-pages-artifact@v1
