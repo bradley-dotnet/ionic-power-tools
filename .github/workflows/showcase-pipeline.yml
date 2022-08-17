@@ -24,6 +24,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli@13
 
       - name: Build library
         run: ng build ionic-power-tools
