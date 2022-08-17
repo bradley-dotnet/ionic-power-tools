@@ -94,6 +94,7 @@
                 }
               ],
               "outputHashing": "all",
+              "baseHref": "/ionic-power-tools/",
               "deployUrl": "/ionic-power-tools/"
             },
             "development": {
