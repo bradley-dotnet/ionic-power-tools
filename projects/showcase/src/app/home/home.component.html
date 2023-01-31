@@ -10,7 +10,7 @@
     <ion-grid>
         <ion-row>
             <ion-col size="12" size-sm="6" size-xl>
-                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.LoadingSpinner">
+                <ion-card [button]="true" routerLink="/loading-spinner">
                     <ion-card-header>
                         <ion-card-title>
                             Loading Spinner
@@ -22,7 +22,7 @@
                 </ion-card>
             </ion-col>
             <ion-col size="12" size-sm="6" size-xl>
-                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.Dialog">
+                <ion-card [button]="true" routerLink="/dynamic-dialog">
                     <ion-card-header>
                         <ion-card-title>
                             Dynamic Dialog
@@ -34,7 +34,7 @@
                 </ion-card>
             </ion-col>
             <ion-col size="12" size-sm="6" size-xl>
-                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.FormInput">
+                <ion-card [button]="true" routerLink="/form-input">
                     <ion-card-header>
                         <ion-card-title>
                             Form Input
@@ -45,18 +45,6 @@
                     </ion-card-content>
                 </ion-card>
             </ion-col>
-            <ion-col size="12" size-sm="6" size-xl>
-                <ion-card [button]="true" [iptDynamicRouterLink]="NavigationTargets.DynamicRouter">
-                    <ion-card-header>
-                        <ion-card-title>
-                            Dynamic Router
-                        </ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>
-                        Prevent link-rot by making routing tables the single-source-of-truth and use TypeScript enums for linking in components or templates
-                    </ion-card-content>
-                </ion-card>
-            </ion-col>
         </ion-row>
     </ion-grid>
 
@@ -64,6 +52,9 @@
     Just install the package with
     <code>npm install ionic-power-tools</code>
     and import the modules you want to use!
+
+    <h2>Changes in 2.0</h2>
+    The <code>DynamicRouterModule</code> has been removed in favor of the <code>ngx-strong-router</code> library.
 
     <h2>Licensing</h2>
     This project is licensed under GPL version 3. Alternative licensing can be obtained by contacting the author.

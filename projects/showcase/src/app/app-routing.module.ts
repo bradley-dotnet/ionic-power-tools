@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { DynamicRoute } from 'ionic-power-tools';
+import { RouterModule, Routes } from '@angular/router';
 import { DialogComponent } from './dialog/dialog.component';
-import { dynamicRouterRoutes } from './dynamic-router/dynamic-router.routes';
 import { FormInputComponent } from './form-input/form-input.component';
 import { HomeComponent } from './home/home.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import { NavigationTargets } from './navigation-targets.enum';
 
-const routes: DynamicRoute<NavigationTargets>[] = [
+const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
@@ -16,28 +13,19 @@ const routes: DynamicRoute<NavigationTargets>[] = [
   },
   {
     path: 'home',
-    component: HomeComponent,
-    navigationTarget: NavigationTargets.Home
+    component: HomeComponent
   },
   {
     path: 'loading-spinner',
-    component: LoadingSpinnerComponent,
-    navigationTarget: NavigationTargets.LoadingSpinner
+    component: LoadingSpinnerComponent
   },
   {
     path: 'dynamic-dialog',
-    component: DialogComponent,
-    navigationTarget: NavigationTargets.Dialog
+    component: DialogComponent
   },
   {
     path: 'form-input',
-    component: FormInputComponent,
-    navigationTarget: NavigationTargets.FormInput,
-  },
-  {
-    path: 'dynamic-router',
-    loadChildren: () => import('./dynamic-router/dynamic-router.module').then(m => m.DynamicRouterModule),
-    childRouteConfigs: dynamicRouterRoutes,
+    component: FormInputComponent
   }
 ];
 
